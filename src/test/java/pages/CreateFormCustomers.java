@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class FormPage {
+public class CreateFormCustomers {
     public WebDriver driver;
 
-    public FormPage(WebDriver driver) {
+    public CreateFormCustomers(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
@@ -42,14 +42,14 @@ public class FormPage {
     public WebElement sortFirstNameLink;
 
     @Step("Click on tab button Add Customer")
-    public FormPage clickAddCustomerTabBtn() {
+    public CreateFormCustomers clickAddCustomerTabBtn() {
         Wait.waitClickableElement(driver, addCustomerTabBtn);
         addCustomerTabBtn.click();
         return this;
     }
 
     @Step("Print to inputs customer data")
-    public FormPage fillingInputField(String firstName, String lastName, String postCode) {
+    public CreateFormCustomers fillingInputField(String firstName, String lastName, String postCode) {
         firstNameInput.sendKeys(firstName);
         lastNameInput.sendKeys(lastName);
         postCodeInput.sendKeys(postCode);
@@ -57,31 +57,29 @@ public class FormPage {
     }
 
     @Step("Click on submit button Add Customer")
-    public FormPage addCustomer() {
+    public CreateFormCustomers addCustomer() {
         addCustomer.click();
         return this;
     }
 
     @Step("Alert confirm")
-    public FormPage alertConfirm() {
-        Wait.waitAlert(driver);
-        Alert alert = driver.switchTo().alert();
+    public CreateFormCustomers alertConfirm() {
+        Alert alert = Wait.waitAlert(driver);
         String alertText = alert.getText();
-        if(alertText.contains(alertText)) {
+        if (alertText.contains(alertText)) {
             alert.accept();
         }
-
         return this;
     }
 
     @Step("Click on tab button Customers")
-    public FormPage clickCustomersTabBtn() {
+    public CreateFormCustomers clickCustomersTabBtn() {
         customersTabBtn.click();
         return this;
     }
 
     @Step("Click on link sort customers first name")
-    public FormPage sortedFirstNameWithClick() {
+    public CreateFormCustomers sortedFirstNameWithClick() {
         sortFirstNameLink.click();
         return this;
     }
@@ -122,7 +120,7 @@ public class FormPage {
     }
 
     @Step("Deleting a customer closest to the average length of all customers")
-    public FormPage deleteCustomers(List<String> addList, List<String> listOfFirstNameByAverageLength) {
+    public CreateFormCustomers deleteCustomers(List<String> addList, List<String> listOfFirstNameByAverageLength) {
         List<WebElement> deleteButtons = driver.findElements(By.xpath("//tr[@class=\"ng-scope\"]//td[5]//button"));
         Map<String, WebElement> result = IntStream.range(0, addList.size())
                 .boxed()

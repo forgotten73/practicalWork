@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.FormPage;
+import pages.CreateFormCustomers;
 
 import java.time.Duration;
 
@@ -15,13 +15,14 @@ public class BaseTest {
 
     public WebDriver driver;
 
-    public FormPage formPage;
+    public CreateFormCustomers formPage;
+
     @BeforeEach
     public void setup() {
         int pageTimeout = Integer.parseInt(ConfProperties.getProperty("pageTimeout"));
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        formPage = new FormPage(driver);
+        formPage = new CreateFormCustomers(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(pageTimeout));
         driver.get(ConfProperties.getProperty("url"));

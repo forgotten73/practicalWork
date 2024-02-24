@@ -7,7 +7,7 @@ public class FirstName {
     public static String generateRandomCode() {
         int randomNum;
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             randomNum = (int) (Math.random() * 10);
             builder.append(randomNum);
         }

@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-public class PageTest extends BaseTest {
+public class CustomersTest extends BaseTest {
 
     @Test
     @DisplayName("Test method for create customer")
     @Epic("Creating customer test")
-    public void creatCustomer() {
+    public void createCustomer() {
         formPage.clickAddCustomerTabBtn();
         String postCode = FirstName.generateRandomCode();
         String firstName = FirstName.generateFirstName(postCode);
