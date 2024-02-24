@@ -41,7 +41,7 @@ public class FormPage {
     @FindBy(xpath = "//a[@ng-click=\"sortType = 'fName'; sortReverse = !sortReverse\"]")
     public WebElement sortFirstNameLink;
 
-    @Step("Click on button for show form add customer")
+    @Step("Click on tab button Add Customer")
     public FormPage clickAddCustomerTabBtn() {
         Wait.waitClickableElement(driver, addCustomerTabBtn);
         addCustomerTabBtn.click();
@@ -49,14 +49,14 @@ public class FormPage {
     }
 
     @Step("Print to inputs customer data")
-    public FormPage addInputText(String firstName, String lastName, String postCode) {
+    public FormPage fillingInputField(String firstName, String lastName, String postCode) {
         firstNameInput.sendKeys(firstName);
         lastNameInput.sendKeys(lastName);
         postCodeInput.sendKeys(postCode);
         return this;
     }
 
-    @Step("Click on button add customer")
+    @Step("Click on submit button Add Customer")
     public FormPage addCustomer() {
         addCustomer.click();
         return this;
@@ -64,13 +64,17 @@ public class FormPage {
 
     @Step("Alert confirm")
     public FormPage alertConfirm() {
-        //Alert alert =
         Wait.waitAlert(driver);
-        driver.switchTo().alert().accept();
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        if(alertText.contains(alertText)) {
+            alert.accept();
+        }
+
         return this;
     }
 
-    @Step("Click on button for choice table customers")
+    @Step("Click on tab button Customers")
     public FormPage clickCustomersTabBtn() {
         customersTabBtn.click();
         return this;
@@ -93,21 +97,23 @@ public class FormPage {
     }
 
     @Step("Sorted list customers")
-    public boolean sortedFirstName(List<String> sortedListFirstName) {
-        List<String> sortedFirstName = sortedListFirstName.stream().sorted(Collections.reverseOrder(String::compareToIgnoreCase)).toList();
-        if (sortedFirstName.equals(sortedListFirstName)) {
+    public boolean sortedFirstName(List<String> resultingSortedListFirstName) {
+        List<String> sortedFirstName = resultingSortedListFirstName.stream()
+                .sorted(Collections.reverseOrder(String::compareToIgnoreCase))
+                .toList();
+        if (sortedFirstName.equals(resultingSortedListFirstName)) {
             return true;
         }
         return false;
     }
 
     @Step("Getting a string with average length among all first name")
-    public List<String> getListWithAverageStrings(List<String> words) {
-        double averageLength = words.stream()
+    public List<String> getListWithAverageStrings(List<String> resultingSortedListFirstName) {
+        double averageLength = resultingSortedListFirstName.stream()
                 .mapToDouble(String::length)
                 .average()
                 .orElseThrow(NullPointerException::new);
-        List<String> sorted = words.stream()
+        List<String> sorted = resultingSortedListFirstName.stream()
                 .sorted(Comparator.comparingDouble(i -> Math.abs(i.length() - averageLength)))
                 .collect(Collectors.toList());
         return sorted.stream()
@@ -116,14 +122,14 @@ public class FormPage {
     }
 
     @Step("Deleting a customer closest to the average length of all customers")
-    public FormPage deleteCustomers(List<String> addList, List<String> comparedList) {
+    public FormPage deleteCustomers(List<String> addList, List<String> listOfFirstNameByAverageLength) {
         List<WebElement> deleteButtons = driver.findElements(By.xpath("//tr[@class=\"ng-scope\"]//td[5]//button"));
         Map<String, WebElement> result = IntStream.range(0, addList.size())
                 .boxed()
                 .collect(Collectors.toMap(addList::get, deleteButtons::get));
 
         for (String key : result.keySet()) {
-            if (comparedList.contains(key)) {
+            if (listOfFirstNameByAverageLength.contains(key)) {
                 result.get(key).click();
             }
         }

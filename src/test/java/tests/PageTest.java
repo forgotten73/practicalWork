@@ -18,31 +18,45 @@ public class PageTest extends BaseTest {
         formPage.clickAddCustomerTabBtn();
         String postCode = FirstName.generateRandomCode();
         String firstName = FirstName.generateFirstName(postCode);
-        formPage.addInputText(firstName, ConfProperties.getProperty("lastName"), postCode);
-        formPage.addCustomer();
-        formPage.alertConfirm();
-        formPage.clickCustomersTabBtn();
-        List<String> list = formPage.getSortedFirstNameList();
-        System.out.println(list);
-        Assertions.assertTrue(list.contains(firstName), "Name incorrect");
+        formPage.fillingInputField(firstName, ConfProperties.getProperty("lastName"), postCode)
+                .addCustomer()
+                .alertConfirm()
+                .clickCustomersTabBtn();
+        List<String> resultingSortedListFirstName = formPage.getSortedFirstNameList();
+        Assertions.assertTrue(resultingSortedListFirstName.contains(firstName), "Name incorrect");
     }
 
     @Test
-    @DisplayName("Full Test method for page")
-    @Epic("Full page test")
-    public void pageTest() {
+    @DisplayName("Sort first name method test")
+    @Epic("Sort first name test")
+    public void sortFirstNameTest() {
         formPage.clickAddCustomerTabBtn();
         String postCode = FirstName.generateRandomCode();
-        formPage.addInputText(FirstName.generateFirstName(postCode), ConfProperties.getProperty("lastName"), postCode);
-        formPage.addCustomer();
-        formPage.alertConfirm();
-        formPage.clickCustomersTabBtn();
-        formPage.sortedFirstNameWithClick();
-        List<String> list = formPage.getSortedFirstNameList();
-        formPage.sortedFirstName(list);
-        List<String> comparedList = formPage.getListWithAverageStrings(list);
-        formPage.deleteCustomers(list, comparedList);
+        formPage.fillingInputField(FirstName.generateFirstName(postCode), ConfProperties.getProperty("lastName"), postCode)
+                .addCustomer()
+                .alertConfirm()
+                .clickCustomersTabBtn()
+                .sortedFirstNameWithClick();
+        List<String> resultingSortedListFirstName = formPage.getSortedFirstNameList();
+        Assertions.assertTrue(formPage.sortedFirstName(resultingSortedListFirstName), "Sorting on the page does not work correctly");
+    }
+
+    @Test
+    @DisplayName("Delete first name method test")
+    @Epic("Delete first name test")
+    public void deleteFirstNameTest() {
+        formPage.clickAddCustomerTabBtn();
+        String postCode = FirstName.generateRandomCode();
+        formPage.fillingInputField(FirstName.generateFirstName(postCode), ConfProperties.getProperty("lastName"), postCode)
+                .addCustomer()
+                .alertConfirm()
+                .clickCustomersTabBtn()
+                .sortedFirstNameWithClick();
+        List<String> resultingSortedListFirstName = formPage.getSortedFirstNameList();
+        formPage.sortedFirstName(resultingSortedListFirstName);
+        List<String> listOfFirstNameByAverageLength = formPage.getListWithAverageStrings(resultingSortedListFirstName);
+        formPage.deleteCustomers(resultingSortedListFirstName, listOfFirstNameByAverageLength);
         List<String> afterDeleteList = formPage.getSortedFirstNameList();
-        Assertions.assertFalse(afterDeleteList.containsAll(comparedList), "not all customers deleted");
+        Assertions.assertFalse(afterDeleteList.containsAll(listOfFirstNameByAverageLength), "not all customers deleted");
     }
 }

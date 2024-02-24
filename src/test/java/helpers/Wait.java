@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class Wait {
-    public static WebDriverWait wait;
+    public  WebDriverWait wait;
     public static Wait instance;
 
     public Wait(WebDriver driver, long time) {

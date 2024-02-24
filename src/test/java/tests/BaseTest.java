@@ -2,8 +2,8 @@ package tests;
 
 import helpers.ConfProperties;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,12 +13,11 @@ import java.time.Duration;
 
 public class BaseTest {
 
-    public static WebDriver driver;
+    public WebDriver driver;
 
-    public static FormPage formPage;
-
-    @BeforeAll
-    public static void setup() {
+    public FormPage formPage;
+    @BeforeEach
+    public void setup() {
         int pageTimeout = Integer.parseInt(ConfProperties.getProperty("pageTimeout"));
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
@@ -28,8 +27,8 @@ public class BaseTest {
         driver.get(ConfProperties.getProperty("url"));
     }
 
-    @AfterAll
-    public static void testQuit() {
+    @AfterEach
+    public void testQuit() {
         driver.quit();
     }
 

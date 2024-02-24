@@ -13,6 +13,7 @@ public class FirstName {
         }
         return builder.toString();
     }
+
     @Step("Generate random first name")
     public static String generateFirstName(String postCode) {
         char firstChar = 'a';
