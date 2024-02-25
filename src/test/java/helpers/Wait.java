@@ -9,12 +9,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class Wait {
-    public WebDriverWait wait;
+    private final WebDriverWait wait;
 
-    public Wait(WebDriver driver, long time) {
+    private Wait(WebDriver driver, long time) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(time));
     }
 
+    /**
+     * Метод инициализации явного ожидания
+     * для конкретных элементов на странице
+     */
     public static Wait getInstance(WebDriver driver) {
         return new Wait(driver, 20);
     }
