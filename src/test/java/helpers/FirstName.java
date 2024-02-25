@@ -3,6 +3,10 @@ package helpers;
 import io.qameta.allure.Step;
 
 public class FirstName {
+
+    /**
+     * Метод, генерирущий случайный код из 10 цифр
+     */
     @Step("Generate random post code")
     public static String generateRandomCode() {
         int randomNum;
@@ -14,6 +18,10 @@ public class FirstName {
         return builder.toString();
     }
 
+    /**
+     * Метод, генерирущий случайное имя на основе метода {@link #generateRandomCode},
+     * генерирующего случайный код из 10 цифр разделенного на 5 двузначных чисел
+     */
     @Step("Generate random first name")
     public static String generateFirstName(String postCode) {
         char firstChar = 'a';

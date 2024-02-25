@@ -41,6 +41,9 @@ public class CreateFormCustomers {
     @FindBy(xpath = "//a[@ng-click=\"sortType = 'fName'; sortReverse = !sortReverse\"]")
     public WebElement sortFirstNameLink;
 
+    /**
+     * Метод нажатия на кнопку таба Add Customer
+     */
     @Step("Click on tab button Add Customer")
     public CreateFormCustomers clickAddCustomerTabBtn() {
         Wait.waitClickableElement(driver, addCustomerTabBtn);
@@ -48,6 +51,12 @@ public class CreateFormCustomers {
         return this;
     }
 
+    /**
+     * Метод заполнения полей ввода данными
+     * @param firstName имя построенное из случайного кода
+     * @param lastName фамилия (статическая переменная)
+     * @param postCode случайный код из 10 цифр
+     */
     @Step("Print to inputs customer data")
     public CreateFormCustomers fillingInputField(String firstName, String lastName, String postCode) {
         firstNameInput.sendKeys(firstName);
@@ -56,12 +65,18 @@ public class CreateFormCustomers {
         return this;
     }
 
+    /**
+     * Метод нажатия на кнопку Add Customer (кнопка submit в форме)
+     */
     @Step("Click on submit button Add Customer")
     public CreateFormCustomers addCustomer() {
         addCustomer.click();
         return this;
     }
 
+    /**
+     * Метод подтверждения всплывающего окна alert
+     */
     @Step("Alert confirm")
     public CreateFormCustomers alertConfirm() {
         Alert alert = Wait.waitAlert(driver);
@@ -72,18 +87,27 @@ public class CreateFormCustomers {
         return this;
     }
 
+    /**
+     * Метод нажатия на кнопку таба Customers
+     */
     @Step("Click on tab button Customers")
     public CreateFormCustomers clickCustomersTabBtn() {
         customersTabBtn.click();
         return this;
     }
 
+    /**
+     * Метод нажатия на ссылку сортировки First Name
+     */
     @Step("Click on link sort customers first name")
     public CreateFormCustomers sortedFirstNameWithClick() {
         sortFirstNameLink.click();
         return this;
     }
 
+    /**
+     * Метод получения списка имён со страницы Customers
+     */
     @Step("Getting a sorted list customers after click link sorted first name")
     public List<String> getSortedFirstNameList() {
         List<WebElement> listFirstName = driver.findElements(By.xpath("//tr[@class=\"ng-scope\"]//td[1]"));
@@ -94,6 +118,10 @@ public class CreateFormCustomers {
         return firstNameArray;
     }
 
+    /**
+     * Метод сортировки полученного списка имён в порядке убывания
+     * @param resultingSortedListFirstName список имён полученный со страницы Customers
+     */
     @Step("Sorted list customers")
     public boolean sortedFirstName(List<String> resultingSortedListFirstName) {
         List<String> sortedFirstName = resultingSortedListFirstName.stream()
@@ -105,6 +133,11 @@ public class CreateFormCustomers {
         return false;
     }
 
+    /**
+     * Метод получения списка имён, отсортированных по
+     * среднеарифметическому показателю длин всех имён
+     * @param resultingSortedListFirstName список имён полученный со страницы Customers
+     */
     @Step("Getting a string with average length among all first name")
     public List<String> getListWithAverageStrings(List<String> resultingSortedListFirstName) {
         double averageLength = resultingSortedListFirstName.stream()
@@ -119,12 +152,18 @@ public class CreateFormCustomers {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Метод удаления по клику на кнопку Delete полученых имен методом {@link #getListWithAverageStrings}
+     * @param resultingSortedListFirstName список имён полученный со страницы Customers
+     * @param listOfFirstNameByAverageLength список имён по
+     * среднеарифметическому показателю длин всех имён
+     */
     @Step("Deleting a customer closest to the average length of all customers")
-    public CreateFormCustomers deleteCustomers(List<String> addList, List<String> listOfFirstNameByAverageLength) {
+    public CreateFormCustomers deleteCustomers(List<String> resultingSortedListFirstName, List<String> listOfFirstNameByAverageLength) {
         List<WebElement> deleteButtons = driver.findElements(By.xpath("//tr[@class=\"ng-scope\"]//td[5]//button"));
-        Map<String, WebElement> result = IntStream.range(0, addList.size())
+        Map<String, WebElement> result = IntStream.range(0, resultingSortedListFirstName.size())
                 .boxed()
-                .collect(Collectors.toMap(addList::get, deleteButtons::get));
+                .collect(Collectors.toMap(resultingSortedListFirstName::get, deleteButtons::get));
 
         for (String key : result.keySet()) {
             if (listOfFirstNameByAverageLength.contains(key)) {

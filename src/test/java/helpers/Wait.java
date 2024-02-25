@@ -23,10 +23,18 @@ public class Wait {
         return new Wait(driver, 20);
     }
 
+    /**
+     * Метод инициализации явного ожидания
+     * для alert
+     */
     public static Alert waitAlert(WebDriver driver) {
         return getInstance(driver).wait.until(ExpectedConditions.alertIsPresent());
     }
 
+    /**
+     * Метод инициализации явного ожидания
+     * для кликабельных элементов
+     */
     public static void waitClickableElement(WebDriver driver, WebElement element) {
         getInstance(driver).wait.until(ExpectedConditions.elementToBeClickable(element));
     }

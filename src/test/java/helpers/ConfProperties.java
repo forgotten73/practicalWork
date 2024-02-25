@@ -27,7 +27,10 @@ public class ConfProperties {
             }
         }
     }
-
+    /**
+     * Метод получения переменных из файла conf.properties
+     * @param key передаваемая переменная
+     */
     public static String getProperty(String key) {
         return properties.getProperty(key);
     }
