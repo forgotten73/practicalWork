@@ -32,12 +32,16 @@ Selenium
 <p>
 Запуск тестов из корня проекта:
 </p>
+<br>
 <code>mvn clean test</code>
-
 <p>
+<br>
 Запуск отчета в Allure из папки ./target
 </p>
+<br>
 <code>allure serve</code>
+<br>
+<br>
 
 <p>
 В папке <code>test/resources/jenkins-setting</code> находятся скрины с настройкой jenkins локально и скрины allure отчета
