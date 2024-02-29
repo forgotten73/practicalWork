@@ -1,4 +1,4 @@
-package helpers;
+package helpers.ui;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
