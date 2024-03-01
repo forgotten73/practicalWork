@@ -10,7 +10,7 @@ import java.util.List;
 import static helpers.api.Specifications.*;
 import static io.restassured.RestAssured.given;
 
-public class BaseStep {
+public class EntityStep {
 
     /**
      * Получение ответа
@@ -20,7 +20,7 @@ public class BaseStep {
     @Step("Get Entity")
     public static Response getResponse(Integer id) {
         return given()
-                .spec(requestSpec)
+                .spec(requestSpec).log().all()
                 .when()
                 .get(Endpoints.GET.getEndpoint() + id)
                 .then().log().all()
@@ -37,7 +37,7 @@ public class BaseStep {
     @Step("Post Entity")
     public static Integer postCreateWithExtractId(EntityData req) {
         return given()
-                .spec(requestSpec)
+                .spec(requestSpec).log().all()
                 .body(req)
                 .when()
                 .post(Endpoints.CREATE.getEndpoint())
@@ -52,12 +52,28 @@ public class BaseStep {
     @Step("Get ALL Entity")
     public static List<EntityData> getAllEntity() {
         return given()
-                .spec(requestSpec)
+                .spec(requestSpec).log().all()
                 .when()
                 .get(Endpoints.GET_ALL.getEndpoint())
                 .then().log().all()
                 .spec(responseSpecOK200)
                 .extract().body().jsonPath().getList("entity", EntityData.class);
+    }
+
+    /**
+     * Изменение сущности
+     *
+     * @param req pojo класс
+     * @param id  идентификатор изменяемой сущности
+     */
+    public static void getPatchEntity(EntityData req, Integer id) {
+        given()
+                .spec(requestSpec).log().all()
+                .body(req)
+                .when()
+                .patch(Endpoints.PATCH.getEndpoint() + id)
+                .then().log().all()
+                .statusCode(204);
     }
 
     /**
@@ -69,9 +85,15 @@ public class BaseStep {
     public static void deleteEntity(Integer id) {
         given()
                 .when()
-                .spec(requestSpec)
+                .spec(requestSpec).log().all()
                 .delete(Endpoints.DELETE.getEndpoint() + id)
                 .then().log().all()
                 .statusCode(204);
+        given()
+                .spec(requestSpec).log().all()
+                .when()
+                .get(Endpoints.GET.getEndpoint() + id)
+                .then().log().all()
+                .statusCode(500);
     }
 }

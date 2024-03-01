@@ -1,10 +1,13 @@
 package pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 
 /**
  * Класс для дисериализации и сериализации сущности
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EntityData {
     private Integer id;
     private String title;
@@ -44,6 +47,18 @@ public class EntityData {
         public Addition() {
 
         }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public String getAdditional_info() {
+            return additional_info;
+        }
+
+        public Integer getAdditional_number() {
+            return additional_number;
+        }
     }
 
     public Integer getId() {
@@ -52,5 +67,17 @@ public class EntityData {
 
     public String getTitle() {
         return title;
+    }
+
+    public Addition getAddition() {
+        return addition;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public ArrayList<Integer> getImportant_numbers() {
+        return important_numbers;
     }
 }
