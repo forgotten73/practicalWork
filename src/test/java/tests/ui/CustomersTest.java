@@ -1,7 +1,7 @@
-package tests;
+package tests.ui;
 
 import helpers.ConfProperties;
-import helpers.FirstName;
+import helpers.ui.FirstName;
 import io.qameta.allure.Epic;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package helpers;
+package helpers.ui;
 
 import io.qameta.allure.Step;
 

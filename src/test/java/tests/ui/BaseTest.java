@@ -1,4 +1,4 @@
-package tests;
+package tests.ui;
 
 import helpers.ConfProperties;
 import io.github.bonigarcia.wdm.WebDriverManager;
